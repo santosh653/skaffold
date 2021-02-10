@@ -50,10 +50,12 @@ jobs:
   include:
     - os: linux
       name: "linters"
+      arch: amd64
       script:
         - make linters
     - os: linux
       name: "checks"
+      arch: amd64
       script:
         - make checks
       cache:
@@ -61,6 +63,7 @@ jobs:
           - $HOME/.cache/go-build
     - os: linux
       name: "Linux unit"
+      arch: amd64
       script:
         - make coverage
       cache:
@@ -68,6 +71,7 @@ jobs:
           - $HOME/.cache/go-build
     - os: osx
       name: "OSX unit"
+      arch: amd64
       script:
         - make quicktest
       cache:
@@ -75,6 +79,7 @@ jobs:
           - $HOME/.cache/go-build
     - os: windows
       name: "Windows unit"
+      arch: amd64
       script:
         - go test -short -timeout 60s ./...
       cache:
@@ -82,42 +87,51 @@ jobs:
           - C:\\Users\\travis\\AppData\\Local\\go-build
     - name: "kind integration partition 0"
       <<: *integration_test
+      arch: amd64
       script:
         - env IT_PARTITION=0 make integration-in-kind
     - name: "kind integration partition 1"
       <<: *integration_test
+      arch: amd64
       script:
         - env IT_PARTITION=1 make integration-in-kind
     - name: "kind integration partition 2"
       <<: *integration_test
+      arch: amd64
       script:
         - env IT_PARTITION=2 make integration-in-kind
     - name: "kind integration partition 3"
       <<: *integration_test
+      arch: amd64
       script:
         - env IT_PARTITION=3 make integration-in-kind
     - name: "k3d integration partition 0"
       <<: *integration_test
       <<: *upgrade_docker
+      arch: amd64
       script:
         - env IT_PARTITION=0 make integration-in-k3d
     - name: "k3d integration partition 1"
       <<: *integration_test
       <<: *upgrade_docker
+      arch: amd64
       script:
         - env IT_PARTITION=1 make integration-in-k3d
     - name: "k3d integration partition 2"
       <<: *integration_test
       <<: *upgrade_docker
+      arch: amd64
       script:
         - env IT_PARTITION=2 make integration-in-k3d
     - name: "k3d integration partition 3"
       <<: *integration_test
       <<: *upgrade_docker
+      arch: amd64
       script:
         - env IT_PARTITION=3 make integration-in-k3d
     - os: linux
       name: "diag/Linux unit"
+      arch: amd64
       script:
         - make -f Makefile.diag coverage
       cache:
@@ -125,8 +139,108 @@ jobs:
           - $HOME/.cache/go-build
     - os: osx
       name: "diag/OSX unit"
+      arch: amd64
       script:
         - make -f Makefile.diag test
       cache:
         directories:
           - $HOME/.cache/go-build
+          
+    - os: linux
+      name: "linters"
+      arch: ppc64le
+      script:
+        - make linters
+    - os: linux
+      name: "checks"
+      arch: ppc64le
+      script:
+        - make checks
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+    - os: linux
+      name: "Linux unit"
+      arch: ppc64le
+      script:
+        - make coverage
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+    - os: osx
+      name: "OSX unit"
+      arch: ppc64le
+      script:
+        - make quicktest
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+    - os: windows
+      name: "Windows unit"
+      arch: ppc64le
+      script:
+        - go test -short -timeout 60s ./...
+      cache:
+        directories:
+          - C:\\Users\\travis\\AppData\\Local\\go-build
+    - name: "kind integration partition 0"
+      <<: *integration_test
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=0 make integration-in-kind
+    - name: "kind integration partition 1"
+      <<: *integration_test
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=1 make integration-in-kind
+    - name: "kind integration partition 2"
+      <<: *integration_test
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=2 make integration-in-kind
+    - name: "kind integration partition 3"
+      <<: *integration_test
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=3 make integration-in-kind
+    - name: "k3d integration partition 0"
+      <<: *integration_test
+      <<: *upgrade_docker
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=0 make integration-in-k3d
+    - name: "k3d integration partition 1"
+      <<: *integration_test
+      <<: *upgrade_docker
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=1 make integration-in-k3d
+    - name: "k3d integration partition 2"
+      <<: *integration_test
+      <<: *upgrade_docker
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=2 make integration-in-k3d
+    - name: "k3d integration partition 3"
+      <<: *integration_test
+      <<: *upgrade_docker
+      arch: ppc64le
+      script:
+        - env IT_PARTITION=3 make integration-in-k3d
+    - os: linux
+      name: "diag/Linux unit"
+      arch: ppc64le
+      script:
+        - make -f Makefile.diag coverage
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+    - os: osx
+      name: "diag/OSX unit"
+      arch: ppc64le
+      script:
+        - make -f Makefile.diag test
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+ 
